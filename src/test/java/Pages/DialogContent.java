@@ -31,8 +31,19 @@ public class DialogContent extends Parent {
     public WebElement passwordAdd;
     @FindBy(xpath = "(//input[@autocomplete='off'])[3]")
     public WebElement passwordAddConfirm;
-    @FindBy(xpath = "//button[@type='submit']")
+    @FindBy(xpath = "//button[@class='oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space']")
     public WebElement saveBtn;
     @FindBy(xpath = "(//div[@class='oxd-select-text oxd-select-text--active'])[1]//div")
     public WebElement Ess;
+    @FindBy(xpath = "//div[@role='listbox']")
+    public WebElement listbox;
+
+    @FindBy(xpath = "(//input[@class='oxd-input oxd-input--active'])[2]")
+    public WebElement searchBox;
+
+    @FindBy(xpath = "//button[@class='oxd-button oxd-button--medium oxd-button--secondary orangehrm-left-space']")
+    public WebElement searchBtn;
+
+    @FindBy(xpath = "//i[@class='oxd-icon bi-pencil-fill']")
+    public WebElement pencil;
 }

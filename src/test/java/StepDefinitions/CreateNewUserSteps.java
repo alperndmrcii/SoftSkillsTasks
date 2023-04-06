@@ -7,6 +7,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.bytebuddy.utility.RandomString;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
@@ -17,12 +18,14 @@ import org.testng.Assert;
 
 import java.security.Key;
 import java.time.Duration;
+import java.util.Random;
 
 public class CreateNewUserSteps {
     DialogContent dc = new DialogContent();
     LeftNav ln = new LeftNav();
 
-
+    String randomUsername= RandomString.make(8);
+    WebDriverWait wait=new WebDriverWait(GWD.getDriver(),Duration.ofSeconds(5));
 
 
     @Given("Navigate to OrangeHRM")
@@ -47,6 +50,8 @@ public class CreateNewUserSteps {
     @And("Click add button and fill in the informations")
     public void clickAddButtonAndFillInTheInformations() {
         dc.clickFunction(dc.addBtn);
+
+
         dc.clickFunction(dc.userRole);
         Actions aksiyon=new Actions(GWD.getDriver());
         aksiyon.keyDown(Keys.ARROW_DOWN).build().perform();
@@ -56,24 +61,44 @@ public class CreateNewUserSteps {
         aksiyon.keyDown(Keys.ENTER).build().perform();
         aksiyon.keyUp(Keys.ENTER).build().perform();
 
+
         dc.clickFunction(dc.Status);
+        aksiyon.keyDown(Keys.ARROW_DOWN).build().perform();
+        aksiyon.keyUp(Keys.ARROW_DOWN).build().perform();
+        aksiyon.keyDown(Keys.ARROW_DOWN).build().perform();
+        aksiyon.keyUp(Keys.ARROW_DOWN).build().perform();
+        aksiyon.keyDown(Keys.ENTER).build().perform();
+        aksiyon.keyUp(Keys.ENTER).build().perform();
 
-        Select selectStatus = new Select(dc.Status);
-        selectStatus.selectByIndex(0);
-        dc.sendKeysFunction(dc.employeeName, "Cucumber");
-        dc.sendKeysFunction(dc.usernameAdd, "Salatalik123321");
-        dc.sendKeysFunction(dc.passwordAdd, "cacik3535");
-        dc.sendKeysFunction(dc.passwordAddConfirm, "cacik3535");
+        dc.sendKeysFunction(dc.employeeName, "P");
+        GWD.Bekle(3);
+        dc.clickFunction(dc.listbox);
 
+
+        dc.sendKeysFunction(dc.usernameAdd, randomUsername);
+
+        dc.sendKeysFunction(dc.passwordAdd, "Cacik3535.");
+
+        dc.sendKeysFunction(dc.passwordAddConfirm, "Cacik3535.");
+
+        GWD.Bekle(4);
 
     }
 
     @And("Click Save button")
     public void clickSaveButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(dc.saveBtn));
         dc.clickFunction(dc.saveBtn);
     }
 
     @Then("Verify the new user is in the list")
     public void verifyTheNewUserIsInTheList() {
+        wait.until(ExpectedConditions.urlToBe("https://opensource-demo.orangehrmlive.com/web/index.php/admin/viewSystemUsers"));
+        wait.until(ExpectedConditions.elementToBeClickable(dc.searchBox));
+        dc.sendKeysFunction(dc.searchBox,randomUsername);
+        dc.clickFunction(dc.searchBtn);
+        wait.until(ExpectedConditions.elementToBeClickable(dc.pencil));
+        Assert.assertTrue(dc.pencil.isDisplayed());
+
     }
 }
