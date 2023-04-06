@@ -46,4 +46,7 @@ public class DialogContent extends Parent {
 
     @FindBy(xpath = "//i[@class='oxd-icon bi-pencil-fill']")
     public WebElement pencil;
+
+    @FindBy(xpath = "//h6[text()='Add User']")
+    public WebElement addUser;
 }
